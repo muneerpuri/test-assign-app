@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing...TEST</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <h1 id="user-roll"></h1>
+    <div id="container">
+        <form id="form">
+            <label for="textarea">
+                Please Start Typing</label>
+            <textarea 
+                id="textareaMsg" 
+                style="resize: none;text-align: justify;"
+                >
+            </textarea>
+        </form>
+    </div>
+
+    <div class="counter">
+        <h3 id="total-word-count">0 <br>words</h3>
+        <h3 id="total-character-count">0 <br>characters</h3>
+        <h3 id="words-minute-count">0<br>words/minute</h3>    
+    </div>
+
+
+    <script>
+
+let form = document.getElementById('form')
+    let textArea = document.getElementById('textareaMsg')
+    textArea.value=""
+    let wordCount = document.getElementById('total-word-count')
+    let wordCountVal = 0
+    let characterCount = document.getElementById('total-character-count')
+    let characterCountVal = 0
+    let wordsMinute = document.getElementById('words-minute-count')
+    let wordsMinuteVal = 0
+    let wordsMinuteValg = 0
+    let headingRoll = document.getElementById('user-roll')
+    let stringmsg = ""
+    let userRoll = prompt("Please enter your Roll number:", ""); //accepting roll number
+   
+    
+window.onload = ()=>{
+    if((userRoll === "" || userRoll === null) ){
+        textArea.disabled=true;
+        headingRoll.innerText='Please reload and enter a valid roll number'
+    }
+    if(isNaN(parseInt(userRoll))){
+
+        textArea.disabled=true;
+        headingRoll.innerText='Please reload and enter a valid Numeric roll number'
+        
+    }else{
+        
+        
+        
+        textArea.addEventListener('keyup',()=>{   //textarea data will be manipulated when key is pushed
+            textArea.value;
+            wordCount.innerHTML = WordCount(textArea.value) +"<br>WORDS"
+            characterCount.innerHTML = CharacterCount(textArea.value) +"<br>CHARACTER"
+            wordCountVal=WordCount(textArea.value)
+                characterCountVal = CharacterCount(textArea.value)
+                wordsMinuteVal = WordCount(textArea.value)
+                objectSend = { // user object having data about user
+                        roll:parseInt(userRoll),
+                        words:wordCountVal,
+                        characters:characterCountVal,
+                        wordsperminute :wordsMinuteValg
+                }
+                
+                let socket = new WebSocket("ws://127.0.0.1:8080/ws");
+        console.log("Attempting Connection...");
+
+        socket.onopen = () => {
+            console.log("Successfully Connected");
+            socket.send(JSON.stringify(objectSend))
+        };
+        
+        socket.onclose = event => {
+            console.log("Socket Closed Connection: ", event);
+            socket.send("Client Closed!")
+        };
+
+        socket.onerror = error => {
+            console.log("Socket Error: ", error);
+        };
+                
+
+            let timeMin = setInterval(()=>{
+
+                wordsMinute.innerHTML =  WordCount(textArea.value) +"<br>words/minute";
+                wordsMinuteValg = WordCount(textArea.value);
+
+            },60000)
+
+            
+
+
+        })
+        headingRoll.innerText='welcome'+', '+userRoll;
+        
+       
+        
+
+
+        
+
+    }
+    
+   
+} 
+    function WordCount(str) {
+        return str.split(" ").length;
+    }
+    function CharacterCount(str) {
+        return str.length
+    }
+    </script>
+    <script async src="./app.js"></script>
+</body>
+</html>
