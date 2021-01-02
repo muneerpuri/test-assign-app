@@ -24,11 +24,10 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
+func homePage(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "<table style=\" text-align:right;padding:20px;color:redborder-collapse:collapse;\" border=\"1\"><tr><th>Roll No.</th><th>total Words</th><th>Total Characters</th></th><th>Words/Minute</th></tr><tr><td>"+fmt.Sprint(user.Roll)+"</td><td>"+fmt.Sprint(user.Words)+"</td><td>"+fmt.Sprint(user.Characters)+"</td><td>"+fmt.Sprint(user.Wordsperminute)+"</td></tr></table>")
 
-	func homePage(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "<table><tr><th>Roll No.</th><th>total Words</th><th>Total Characters</th></th><th>Words/Minute</th></tr><tr><td>"+fmt.Sprint(user.Roll)+"</td><td>"+fmt.Sprint(user.Words)+"</td><td>"+fmt.Sprint(user.Characters)+"</td><td>"+fmt.Sprint(user.Wordsperminute)+"</td></tr></table>")
-		
-	}
+}
 
 func reader(conn *websocket.Conn) {
 	for {
