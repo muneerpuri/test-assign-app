@@ -65,19 +65,18 @@ window.onload = ()=>{
             wordCountVal=WordCount(textArea.value)
                 characterCountVal = CharacterCount(textArea.value)
                 wordsMinuteVal = WordCount(textArea.value)
-                objectSend = { // user object having data about user
-                        roll:parseInt(userRoll),
-                        words:wordCountVal,
-                        characters:characterCountVal,
-                        wordsperminute :wordsMinuteValg
-                }
-                
+                objectSend = [ // user object having data about user
+                        parseInt(userRoll),
+                        wordCountVal,
+                        characterCountVal,
+                        wordsMinuteValg
+                ]
                 let socket = new WebSocket("ws://127.0.0.1:8080/ws");
         console.log("Attempting Connection...");
 
         socket.onopen = () => {
             console.log("Successfully Connected");
-            socket.send(JSON.stringify(objectSend))
+            socket.send(objectSend)
         };
         
         socket.onclose = event => {
