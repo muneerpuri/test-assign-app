@@ -1,0 +1,31 @@
+body{
+    background-color: lightpink;
+    text-align: center;
+    text-transform: capitalize;
+    overflow: hidden;
+}
+#myTable{
+    width: calc(100% - 80%);
+    margin: auto;
+    overflow-x: scroll;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    text-align: center;
+    border: 1px solid grey;
+    text-transform: capitalize;
+    font-size: 1.5rem;
+    box-shadow: 3px 4px 10px grey;
+    
+
+}
+th{
+    background-color: lightblue;
+    color: white;
+    text-shadow: 1px 1px black;
+}
+
+td,th{
+    border: none;
+    border-bottom: 1px solid grey;
+    padding: 10px;
+}

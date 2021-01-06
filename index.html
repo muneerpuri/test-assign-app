@@ -45,6 +45,21 @@ let form = document.getElementById('form')
    
     
 window.onload = ()=>{
+    let socket = new WebSocket("ws://127.0.0.1:8080/ws");  console.log("Attempting Connection...");
+
+socket.onopen = () => {
+    console.log("Successfully Connected");
+};
+
+socket.onclose = event => {
+    console.log("Socket Closed Connection: ", event);
+    socket.send("Client Closed!")
+};
+
+socket.onerror = error => {
+    console.log("Socket Error: ", error);
+};
+
     if((userRoll === "" || userRoll === null) ){
         textArea.disabled=true;
         headingRoll.innerText='Please reload and enter a valid roll number'
@@ -71,22 +86,9 @@ window.onload = ()=>{
                         characterCountVal,
                         wordsMinuteValg
                 ]
-                let socket = new WebSocket("ws://127.0.0.1:8080/ws");
-        console.log("Attempting Connection...");
-
-        socket.onopen = () => {
-            console.log("Successfully Connected");
-            socket.send(objectSend)
-        };
-        
-        socket.onclose = event => {
-            console.log("Socket Closed Connection: ", event);
-            socket.send("Client Closed!")
-        };
-
-        socket.onerror = error => {
-            console.log("Socket Error: ", error);
-        };
+                
+    socket.send(objectSend)
+      
                 
 
             let timeMin = setInterval(()=>{
@@ -119,6 +121,5 @@ window.onload = ()=>{
         return str.length
     }
     </script>
-    <script async src="./app.js"></script>
 </body>
 </html>
